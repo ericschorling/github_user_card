@@ -27,17 +27,28 @@ export default class UserInput extends Component {
         })
         console.log(this.state.userList)
     }
+    _handleKeyPress = async(event)=>{
+        console.log(event.charCode)
+        if(event.charCode === 13){
+            const newUser = await this.getUser()
+            const newList = [...this.state.userList, newUser]
+            this.setState({
+                userList: newList,
+                userId: ''
+            })
+        }
+    }
     
     render () {
         return (
             <Router>
-            <Link to="/">List</Link>
+                <Link to="/">List</Link>
                 <Route exact path="/">
                     <form>
                         <label>User ID:
                             <input onChange={event=>this._handleChange(event.target.value)} type="text" value={this.state.userId}></input>
                         </label>
-                        <button onClick={this._handleClick} type="button">Add User</button>
+                        <button onKeyPress={event=>this._handleKeyPress(event.target.value)} onClick={this._handleClick} type="button">Add User</button>
                     </form>
                 
                 <ul>
